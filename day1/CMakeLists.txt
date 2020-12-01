@@ -14,5 +14,6 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(C|c?)lang")
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
+add_compile_options(-O3)
 
 add_executable(main main.cpp)

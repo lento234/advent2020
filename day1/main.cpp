@@ -25,6 +25,36 @@ std::vector<T> load_vector(std::string filename)
     return vec;
 }
 
+template<typename T>
+void answer1(std::vector<T>& numbers)
+{
+    std::cout << "Answer 1:\n";
+    for (auto& a: numbers)
+        for (auto& b: numbers)
+            if (a+b == 2020)
+            {
+                std::cout << a << "+" << b << "=" << a+b << "\n"
+                          << a << "*" << b << "=" << a*b << "\n";
+                return;
+            }
+}
+
+template<typename T>
+void answer2(std::vector<T>& numbers)
+{
+    std::cout << "Answer 2:\n";
+    for (auto& a: numbers)
+        for (auto& b: numbers)
+            for (auto& c: numbers)
+                if (a+b+c == 2020)
+                {
+                    std::cout << a << "+" << b << "+" << c << "=" << a+b+c << "\n"
+                              << a << "*" << b << "+" << c << "=" << a*b*c << "\n";
+                     return;
+                }
+}
+
+
 int main()
 {
     // Info
@@ -34,15 +64,10 @@ int main()
     // Read file
     std::vector<int> numbers = load_vector<int>("numbers.txt");
 
-    // Print array
-    std::cout << "Solution:\n";
-    for (auto& a: numbers)
-        for (auto& b: numbers)
-            if (a+b == 2020)
-            {
-                std::cout << a << " + " << b << " = " << a + b << "\n"
-                          << a << " * " << b << " = " << a * b << "\n";
-                return 0;
-            }
+    // Answer 1
+    answer1(numbers);
+   
+    // Answer 2
+    answer2(numbers);
 
 }

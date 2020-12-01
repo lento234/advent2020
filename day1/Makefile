@@ -3,6 +3,11 @@ all:
 	make -C build
 	cp -v build/main .
 
+run:
+	./main
+
 clean:
-	rm -rvf build
-	rm main 
+	$(RM) -rvf build
+	$(RM) main 
+
+.PHONY: all clean run

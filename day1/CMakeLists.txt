@@ -3,6 +3,7 @@ cmake_minimum_required (VERSION 3.10)
 # use gcc 
 set(CMAKE_CXX_COMPILER "g++-10")
 set(CMAKE_C_COMPILER "gcc-10")
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 project(day1)
 

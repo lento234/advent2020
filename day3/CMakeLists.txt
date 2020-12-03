@@ -8,8 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 # Make it release build to add -O3 and -DNDEBUG flags
-#set(CMAKE_BUILD_TYPE Release) 
-set(CMAKE_BUILD_TYPE Debug) 
+set(CMAKE_BUILD_TYPE Release) 
+#set(CMAKE_BUILD_TYPE Debug) 
 # also add -march-native
 add_compile_options(-march=native)
 

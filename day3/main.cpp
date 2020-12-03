@@ -16,42 +16,81 @@ inline std::vector<std::vector<bool>> decode(const Message& input)
     return decoded_input;
 }
 
-inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input, const uint32_t& row_shift, const uint32_t& col_shift)
+inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input, const uint32_t& right, const uint32_t& down)
 {
     uint32_t n_trees = 0;
-    for (size_t i=0, j=0; i<decoded_input.size(); i+=row_shift, j+=col_shift)
+    for (size_t i=0, j=0; i<decoded_input.size(); i+=down, j+=right)
             if (decoded_input[i][j % decoded_input[i].size()])
                 n_trees++;
 
     return n_trees;
 }
 
-static void answer1(const std::string& filename, const uint32_t& row_shift = 1, const uint32_t& col_shift = 3)
+static void answer1(const std::string& filename, const uint32_t& right = 3, const uint32_t& down = 1)
 {
     // Read file
     Message test_input(filename);
-
-    // Debugging
-    //for (auto& line: test_input.content)
-    //    fmt::print("{}\n", line);
 
     // decode message
     auto decoded_input = decode(test_input);
   
     // Count number of trees
-    auto n_trees = count_trees(decoded_input, row_shift, col_shift); 
+    auto n_trees = count_trees(decoded_input, right, down);
 
-    fmt::print("Number of trees [right: {}, left: {}]: {}\n", row_shift, col_shift, n_trees);
+    fmt::print("Number of trees [right: {}, down: {}]: {}\n", right, down, n_trees);
+
+}
+
+static void answer2(const std::string& filename, const std::vector<std::vector<uint32_t>>& shift_list)
+{
+    // Read file
+    Message test_input(filename);
+
+    // decode message
+    auto decoded_input = decode(test_input);
+  
+    // Count number of trees
+    uint64_t product = 1;
+    for (const auto& shift: shift_list)
+    {   
+        const uint32_t right = shift[0], down = shift[1];
+        auto n_trees = count_trees(decoded_input, right, down);
+        product *= n_trees;
+    }
+    fmt::print("Product number of trees: {}\n", product);
 
 }
 
 int main()
 {
     // Info
-    const int day = 3;
+    constexpr int day = 3;
     fmt::print("Advent of Code : Day {}\n", day);
 
-    // Read file
+    constexpr uint32_t right = 3, down = 1;
+    
+    // Test answer 1
     fmt::print("\nTest answer 1:\n");
-    answer1("test_input.txt", 1, 3);
+    answer1("test_input.txt", right, down);
+    
+    // Answer 1
+    fmt::print("\nAnswer 1:\n");
+    answer1("input.txt", right, down);
+
+    std::vector<std::vector<uint32_t>> shift_list = 
+    {
+        {1, 1},
+        {3, 1},
+        {5, 1},
+        {7, 1},
+        {1, 2}
+    };
+    
+    // Test answer 2
+    fmt::print("\nTest answer 2:\n");
+    answer2("test_input.txt", shift_list);
+    
+    fmt::print("\nAnswer 2:\n");
+    answer2("input.txt", shift_list);
+
 }

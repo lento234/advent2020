@@ -20,7 +20,7 @@ inline uint32_t count_trees(const Message& input, const uint32_t& right, const u
 
 static void answer1(const Message& input, const uint32_t& right = 3, const uint32_t& down = 1)
 {
-    auto n_trees = count_trees(input, right, down);
+    uint32_t n_trees = count_trees(input, right, down);
     
     fmt::print("Number of trees [right: {}, down: {}]: {}\n", right, down, n_trees);
 
@@ -32,7 +32,7 @@ static void answer2(const Message& input, const std::vector<std::vector<uint32_t
     for (const auto& shift: shift_list)
     {   
         const uint32_t right = shift[0], down = shift[1];
-        auto n_trees = count_trees(input, right, down);
+        uint32_t n_trees = count_trees(input, right, down);
         product *= n_trees;
     }
     fmt::print("Product number of trees: {}\n", product);

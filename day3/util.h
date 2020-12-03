@@ -24,9 +24,9 @@ struct Message
             content.push_back(buffer);
         
         // Close the file.
-       
-        // Determine message
         file.close();
+       
+        // Determine message size
         n_rows = content.size();
         n_cols = content[0].size();
 

@@ -16,7 +16,7 @@ inline std::vector<std::vector<bool>> decode(const Message& input)
     return decoded_input;
 }
 
-inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input, const uint32_t row_shift, const uint32_t col_shift)
+inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input, const uint32_t& row_shift, const uint32_t& col_shift)
 {
     uint32_t n_trees = 0;
     for (size_t i=0, j=0; i<decoded_input.size(); i+=row_shift, j+=col_shift)
@@ -26,7 +26,7 @@ inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input,
     return n_trees;
 }
 
-void answer1(const std::string& filename, uint32_t row_shift = 1, uint32_t col_shift = 3)
+static void answer1(const std::string& filename, const uint32_t& row_shift = 1, const uint32_t& col_shift = 3)
 {
     // Read file
     Message test_input(filename);

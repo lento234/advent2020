@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.15)
 
 project(day3)
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set(CMAKE_C_COMPILER "gcc-10")
+    set(CMAKE_CXX_COMPILER "g++-10")
+    set(CMAKE_CXX_COMPILER_ID "GNU")
+endif()
+
 # C++17 standard
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

@@ -6,55 +6,33 @@
 #include <fmt/ranges.h>
 #include "util.h"
 
-inline std::vector<std::vector<bool>> decode(const Message& input)
+inline uint32_t count_trees(const Message& input, const uint32_t& right, const uint32_t& down)
 {
-    std::vector<std::vector<bool>> decoded_input(input.n_rows);
-    for (size_t i=0; i<input.n_rows; ++i)
-        for (size_t j=0; j<input.n_cols; ++j)
-            decoded_input[i].push_back((input.content[i][j] == '#') ? true : false);
+    const std::vector<std::string>& content = input.content; 
 
-    return decoded_input;
-}
-
-inline uint32_t count_trees(const std::vector<std::vector<bool>>& decoded_input, const uint32_t& right, const uint32_t& down)
-{
     uint32_t n_trees = 0;
-    for (size_t i=0, j=0; i<decoded_input.size(); i+=down, j+=right)
-            if (decoded_input[i][j % decoded_input[i].size()])
-                n_trees++;
+    for (size_t i=0, j=0; i<input.n_rows; i+=down, j+=right)
+        if (content[i][j % input.n_cols] == '#')
+            n_trees++;
 
     return n_trees;
 }
 
-static void answer1(const std::string& filename, const uint32_t& right = 3, const uint32_t& down = 1)
+static void answer1(const Message& input, const uint32_t& right = 3, const uint32_t& down = 1)
 {
-    // Read file
-    Message test_input(filename);
-
-    // decode message
-    auto decoded_input = decode(test_input);
-  
-    // Count number of trees
-    auto n_trees = count_trees(decoded_input, right, down);
-
+    auto n_trees = count_trees(input, right, down);
+    
     fmt::print("Number of trees [right: {}, down: {}]: {}\n", right, down, n_trees);
 
 }
 
-static void answer2(const std::string& filename, const std::vector<std::vector<uint32_t>>& shift_list)
+static void answer2(const Message& input, const std::vector<std::vector<uint32_t>>& shift_list)
 {
-    // Read file
-    Message test_input(filename);
-
-    // decode message
-    auto decoded_input = decode(test_input);
-  
-    // Count number of trees
     uint64_t product = 1;
     for (const auto& shift: shift_list)
     {   
         const uint32_t right = shift[0], down = shift[1];
-        auto n_trees = count_trees(decoded_input, right, down);
+        auto n_trees = count_trees(input, right, down);
         product *= n_trees;
     }
     fmt::print("Product number of trees: {}\n", product);
@@ -63,20 +41,30 @@ static void answer2(const std::string& filename, const std::vector<std::vector<u
 
 int main()
 {
-    // Info
+    // Header info
     constexpr int day = 3;
-    fmt::print("Advent of Code : Day {}\n", day);
+    fmt::print("//////////////////////////////\n");
+    fmt::print("    Advent of Code : Day {}   \n", day);
+    fmt::print("//////////////////////////////\n\n");
 
+    // Read test file
+    Message test_input("test_input.txt");
+
+    // Map traversing direction
     constexpr uint32_t right = 3, down = 1;
     
     // Test answer 1
-    fmt::print("\nTest answer 1:\n");
-    answer1("test_input.txt", right, down);
+    fmt::print(">> Test answer 1:\n");
+    answer1(test_input, right, down);
+    
+    // Read input file
+    Message input("input.txt");
     
     // Answer 1
-    fmt::print("\nAnswer 1:\n");
-    answer1("input.txt", right, down);
+    fmt::print(">> Answer 1:\n");
+    answer1(input, right, down);
 
+    // Map traversing list
     std::vector<std::vector<uint32_t>> shift_list = 
     {
         {1, 1},
@@ -87,10 +75,11 @@ int main()
     };
     
     // Test answer 2
-    fmt::print("\nTest answer 2:\n");
-    answer2("test_input.txt", shift_list);
-    
-    fmt::print("\nAnswer 2:\n");
-    answer2("input.txt", shift_list);
+    fmt::print(">> Test answer 2:\n");
+    answer2(test_input, shift_list);
+
+    // Answer 2
+    fmt::print(">> Answer 2:\n");
+    answer2(input, shift_list);
 
 }

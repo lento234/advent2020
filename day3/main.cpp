@@ -1,6 +1,5 @@
 // Advent of Code: Day 3
 // Lento Manickathan
-
 #include <vector>
 #include <string>
 #include <fmt/ranges.h>
@@ -18,15 +17,14 @@ inline uint32_t count_trees(const Message& input, const uint32_t& right, const u
     return n_trees;
 }
 
-static void answer1(const Message& input, const uint32_t& right = 3, const uint32_t& down = 1)
+uint32_t problem1(const Message& input, const uint32_t& right = 3, const uint32_t& down = 1)
 {
     uint32_t n_trees = count_trees(input, right, down);
     
-    fmt::print("Number of trees [right: {}, down: {}]: {}\n", right, down, n_trees);
-
+    return n_trees;
 }
 
-static void answer2(const Message& input, const std::vector<std::vector<uint32_t>>& shift_list)
+uint64_t problem2(const Message& input, const std::vector<std::vector<uint32_t>>& shift_list)
 {
     uint64_t product = 1;
     for (const auto& shift: shift_list)
@@ -35,8 +33,7 @@ static void answer2(const Message& input, const std::vector<std::vector<uint32_t
         uint32_t n_trees = count_trees(input, right, down);
         product *= n_trees;
     }
-    fmt::print("Product number of trees: {}\n", product);
-
+    return product;
 }
 
 int main()
@@ -47,39 +44,32 @@ int main()
     fmt::print("    Advent of Code : Day {}   \n", day);
     fmt::print("//////////////////////////////\n\n");
 
-    // Read test file
+    // Test input
     Message test_input("test_input.txt");
+    
+    // Test Problem 1:
+    constexpr uint32_t right = 3, down = 1; // shift index
+    uint32_t test_answer1 = problem1(test_input, right, down);
+    fmt::print(">> Test answer 1: {}\n", test_answer1);
+    fmt::print(">> Test 1: {}\n", (test_answer1 == 7) ? "PASSED" : "FAILED");
 
-    // Map traversing direction
-    constexpr uint32_t right = 3, down = 1;
-    
-    // Test answer 1
-    fmt::print(">> Test answer 1:\n");
-    answer1(test_input, right, down);
-    
-    // Read input file
-    Message input("input.txt");
-    
-    // Answer 1
-    fmt::print(">> Answer 1:\n");
-    answer1(input, right, down);
-
-    // Map traversing list
-    std::vector<std::vector<uint32_t>> shift_list = 
+    // Test Problem 2:
+    const std::vector<std::vector<uint32_t>> shift_list = 
     {
-        {1, 1},
+        {1, 1}, // right, down
         {3, 1},
         {5, 1},
         {7, 1},
         {1, 2}
     };
     
-    // Test answer 2
-    fmt::print(">> Test answer 2:\n");
-    answer2(test_input, shift_list);
+    uint32_t test_answer2 = problem2(test_input, shift_list);
+    fmt::print(">> Test answer 2: {}\n", test_answer2);
+    fmt::print(">> Test 2: {}\n", (test_answer2 == 336) ? "PASSED" : "FAILED");
 
-    // Answer 2
-    fmt::print(">> Answer 2:\n");
-    answer2(input, shift_list);
+    // Solve problem
+    Message input("input.txt"); // read message
+    fmt::print(">> Answer 1: {}\n", problem1(input, right, down));
+    fmt::print(">> Answer 2: {}\n", problem2(input, shift_list));
 
 }

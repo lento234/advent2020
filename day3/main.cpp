@@ -2,6 +2,7 @@
 // Lento Manickathan
 #include <vector>
 #include <string>
+#include <list>
 #include <fmt/ranges.h>
 #include "util.h"
 
@@ -24,15 +25,12 @@ uint32_t problem1(const Message& input, const uint32_t& right = 3, const uint32_
     return n_trees;
 }
 
-uint64_t problem2(const Message& input, const std::vector<std::vector<uint32_t>>& shift_list)
+uint64_t problem2(const Message& input, const std::list<std::pair<uint32_t, uint32_t>>& shift_list)
 {
     uint64_t product = 1;
-    for (const auto& shift: shift_list)
-    {   
-        const uint32_t right = shift[0], down = shift[1];
-        uint32_t n_trees = count_trees(input, right, down);
-        product *= n_trees;
-    }
+    for (const auto& [right, down]: shift_list)
+        product *= count_trees(input, right, down);
+    
     return product;
 }
 
@@ -54,7 +52,7 @@ int main()
     fmt::print(">> Test 1: {}\n", (test_answer1 == 7) ? "PASSED" : "FAILED");
 
     // Test Problem 2:
-    const std::vector<std::vector<uint32_t>> shift_list = 
+    const std::list<std::pair<uint32_t, uint32_t>> shift_list = 
     {
         {1, 1}, // right, down
         {3, 1},

@@ -7,10 +7,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 
-# Make it release build to add -O3 and -DNDEBUG flags
-set(CMAKE_BUILD_TYPE Release) 
+# Build type
+set(CMAKE_BUILD_TYPE Release) # Make it release build to add -O3 and -DNDEBUG flags
 #set(CMAKE_BUILD_TYPE Debug) 
-# also add -march-native
 add_compile_options(-march=native)
 
 # setting compiler flags
@@ -19,13 +18,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(C|c?)lang")
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
-# add_compile_options(-O3) # optimization
 
 # External libraries
 find_package(fmt)
 
 # Glob files
-file(GLOB SOURCES "*.cpp")
+file(GLOB SOURCES "src/*.cpp")
 
 # Compile binary
 add_executable(main ${SOURCES})

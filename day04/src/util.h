@@ -38,14 +38,14 @@ struct Text
 struct Passport
 {
     
-    uint32_t byr = 0; // Birth year
-    uint32_t iyr = 0; // Issue year
-    uint32_t eyr = 0; // Expiration year
-    uint32_t hgt = 0; // Height
+    std::string byr = ""; // Birth year
+    std::string iyr = ""; // Issue year
+    std::string eyr = ""; // Expiration year
+    std::string hgt = ""; // Height
     std::string hcl = ""; // Hair color
     std::string ecl = ""; // Eye color
-    uint64_t pid = 0; // Passport ID
-    uint32_t cid = 0; // Country ID
+    std::string pid = ""; // Passport ID
+    std::string cid = ""; // Country ID
 
     Passport(const std::vector<std::string>& info)
     {
@@ -56,21 +56,21 @@ struct Passport
             const std::string key = iinfo.substr(0, iinfo.find(':'));
             const std::string value = iinfo.substr(iinfo.find(':')+1);
             if (key == "byr")
-                byr = std::stoi(value);
+                byr = value;
             else if (key == "iyr")
-                iyr = std::stoi(value);
+                iyr = value;
             else if (key == "eyr")
-                eyr = std::stoi(value);
+                eyr = value;
             else if (key == "hgt")
-                hgt = std::stoi(value);
+                hgt = value;
             else if (key == "hcl")
                 hcl = value;
             else if (key == "ecl")
                 ecl = value;
             else if (key == "pid")
-                pid = std::stoi(value);
+                pid = value;
             else if (key == "cid")
-                cid = std::stoi(value);
+                cid = value;
         }
     }
 
@@ -82,8 +82,9 @@ struct Passport
 
     inline bool is_valid()
     {
-        if (byr == 0 || iyr == 0 || eyr == 0 || hgt == 0 || hcl == "" || ecl == "" || pid == 0)
-            return false;
+        //if (byr == 0 || iyr == 0 || eyr == 0 || hgt == 0 || hcl == "" || ecl == "" || pid == 0)
+        if (byr == "" || iyr == ""  || eyr == "" || hgt == "" || hcl == "" || ecl == "" || pid == "" )
+             return false;
         else
             return true;
     }

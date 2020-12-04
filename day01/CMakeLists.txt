@@ -1,20 +1,31 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 
-# use gcc 
-set(CMAKE_CXX_COMPILER "g++-10")
-set(CMAKE_C_COMPILER "gcc-10")
+project(day01)
+
+# C++17 standard
 set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 17)
 
-project(day1)
+# Build type
+set(CMAKE_BUILD_TYPE Release) # Make it release build to add -O3 and -DNDEBUG flags
+#set(CMAKE_BUILD_TYPE Debug) 
+add_compile_options(-march=native)
 
-# compiler flags
-set(CMAKE_CXX_STANDARD 14)
 # setting compiler flags
-if(CMAKE_CXX_COMPILER_ID MATCHES "(C|c?)lang")
-    add_compile_options(-Weverything)
-else()
-    add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
-add_compile_options(-O3)
+add_compile_options(-Wall -Wextra -Wpedantic)
 
-add_executable(main main.cpp)
+# External libraries
+find_package(fmt)
+
+# Glob files
+file(GLOB SOURCES "src/*.cpp")
+
+# Compile binary
+add_executable(day01 ${SOURCES})
+
+# Link libraries
+target_link_libraries(day01 fmt::fmt)
+
+# add input files
+configure_file(numbers.txt numbers.txt)

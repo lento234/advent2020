@@ -1,16 +1,18 @@
 all: build run
 
+BIN=day04
+
 build:
 	cmake -H. -B build
 	make -C build
-	cp -v build/main .
+	cp -v build/$(BIN) .
 	@echo ""
 
 run:
-	./main
+	./$(BIN)
 
 clean:
 	$(RM) -rvf build
-	$(RM) main 
+	$(RM) $(BIN)
 
 .PHONY: all clean run build

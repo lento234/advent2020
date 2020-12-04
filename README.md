@@ -4,6 +4,8 @@
 
 </div>
 
+[![GitHub license](https://img.shields.io/github/license/lento234/advent2020)](https://github.com/lento234/advent2020/blob/main/LICENSE)
+
 
 ## Description
 

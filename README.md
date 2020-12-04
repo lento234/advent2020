@@ -4,8 +4,8 @@
 
 </div>
 
-[![GitHub license](https://img.shields.io/github/license/lento234/advent2020)](https://github.com/lento234/advent2020/blob/main/LICENSE)
-
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/lento234/advent2020/CMake)
+[![GitHub license](https://img.shields.io/github/license/lento234/advent2020?color=blue)](https://github.com/lento234/advent2020/blob/main/LICENSE)
 
 ## Description
 

@@ -1,11 +1,17 @@
 #pragma once
 
+#include <cctype>
 #include <string>
 #include <vector>
 #include <list>
 #include <fstream>
 #include <sstream>
 #include <fmt/ranges.h>
+
+inline bool strfind(std::string& value, std::string pattern)
+{
+    return (value.find(pattern) != std::string::npos);
+}
 
 struct Text
 {
@@ -49,7 +55,6 @@ struct Passport
 
     Passport(const std::vector<std::string>& info)
     {
-        // Make passport
         std::string buffer;
         for (auto& iinfo : info)
         {
@@ -76,17 +81,8 @@ struct Passport
 
     void print()
     {
-        fmt::print("Info: byr = {}, iyr = {}, eyr = {}, hgt = {} cm, hcl = {}, ecl = {}, pid = {}, cid = {}\n",
+        fmt::print("Info: byr = {}, iyr = {}, eyr = {}, hgt = {}, hcl = {}, ecl = {}, pid = {}, cid = {}\n",
                 byr, iyr, eyr, hgt, hcl, ecl, pid, cid);
-    }
-
-    inline bool is_valid()
-    {
-        //if (byr == 0 || iyr == 0 || eyr == 0 || hgt == 0 || hcl == "" || ecl == "" || pid == 0)
-        if (byr == "" || iyr == ""  || eyr == "" || hgt == "" || hcl == "" || ecl == "" || pid == "" )
-             return false;
-        else
-            return true;
     }
 
 };

@@ -16,7 +16,7 @@ add_compile_options(-march=native)
 add_compile_options(-Wall -Wextra -Wpedantic)
 
 # External libraries
-find_package(fmt)
+find_package(fmt REQUIRED)
 
 # Glob files
 file(GLOB SOURCES "src/*.cpp")

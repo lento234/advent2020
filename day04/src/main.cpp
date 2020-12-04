@@ -1,6 +1,5 @@
 // Advent of Code: Day 4
 // Lento Manickathan
-#include <cctype>
 #include <vector>
 #include <string>
 #include <fmt/ranges.h>
@@ -72,15 +71,12 @@ uint32_t problem2(People& people)
         return is_valid;
     };
 
+    // Eye color check
     auto is_ecl_valid = [] (std::string ecl_str)
     {
-        if ((ecl_str.size() == 3) && ((ecl_str == "amb") ||
-                    (ecl_str == "blu") || (ecl_str == "brn" ) ||
-                    (ecl_str == "gry") || (ecl_str == "grn" ) ||
-                    (ecl_str == "hzl") || (ecl_str == "oth")))
-            return true;
-        else
-            return false;
+        const std::vector<std::string> colors = {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"};
+        
+        return (std::find(colors.begin(), colors.end(), ecl_str) != colors.end()) ? true : false;
     };
 
     uint32_t n_valid = 0;
@@ -124,7 +120,7 @@ int main()
     // Solve problem
     Text input("input.txt");
     People people(input);
-    fmt::print(">> Answer 1: {}\n", problem1(people));
-    fmt::print(">> Answer 2: {}\n", problem2(people));
+    fmt::print(">> Answer 1: {}\n", problem1(people)); // 192
+    fmt::print(">> Answer 2: {}\n", problem2(people)); // 101
 
 }

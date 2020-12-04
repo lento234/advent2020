@@ -1,9 +1,7 @@
 #pragma once
 
-#include <cctype>
 #include <string>
 #include <vector>
-#include <list>
 #include <fstream>
 #include <sstream>
 #include <fmt/ranges.h>

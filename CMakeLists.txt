@@ -6,7 +6,8 @@ project(advent2020)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(day01)
-add_subdirectory(day02)
-add_subdirectory(day03)
-add_subdirectory(day04)
+# add all days
+file(GLOB SOURCES "day*")
+foreach(DIR ${SOURCES})
+    add_subdirectory(${DIR})
+endforeach()

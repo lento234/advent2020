@@ -34,5 +34,8 @@ struct Text
 
     std::string& operator[](const size_t i) { return raw[i]; }
 
+    auto begin() const { return raw.begin(); }
+    auto end() const { return raw.end(); }
+
 };
 

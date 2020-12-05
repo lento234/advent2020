@@ -41,7 +41,7 @@ uint32_t problem1(Text& text)
 
 uint32_t problem2(Text& text)
 {
-    // Get search IDs
+    // Get seat IDs
     constexpr uint32_t partition = 7;
     std::vector<uint32_t> seats;
     for (auto& line: text)
@@ -54,13 +54,10 @@ uint32_t problem2(Text& text)
     std::sort(seats.begin(), seats.end());
     
     // Find missing seat
-    uint32_t next_seat = seats[0]+1;
-    for (size_t i=1; i<seats.size(); ++i)
-    {
-        if (next_seat != seats[i])
-            return next_seat;
-        next_seat = seats[i]+1;
-    }
+    for (size_t i=0; i<seats.size(); ++i)
+        if (seats[i+1] != seats[i]+1)
+            return seats[i]+1;
+
     return 0;
 }
 

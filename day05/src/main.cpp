@@ -18,6 +18,7 @@ int main()
     test_input.print();
 
     // Test Problem 1:
+    fmt::print("{}\n");
     //uint32_t test_answer1 = problem1(test_people);
     //fmt::print(">> Test 1: {}\n", (test_answer1 == 2) ? "PASSED" : "FAILED");
     //uint32_t test_answer2 = problem2(test_people);

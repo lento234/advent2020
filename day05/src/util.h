@@ -32,5 +32,7 @@ struct Text
         fmt::print("    {}\n\n", fmt::join(raw, "\n    "));
     }
 
+    std::string& operator[](const size_t i) { return raw[i]; }
+
 };
 

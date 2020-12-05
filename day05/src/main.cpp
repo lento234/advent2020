@@ -61,7 +61,7 @@ uint32_t problem2(Text& text)
             return next_seat;
         next_seat = seats[i]+1;
     }
-    return -1;
+    return 0;
 }
 
 int main()

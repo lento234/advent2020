@@ -6,16 +6,15 @@
 #include <fmt/ranges.h>
 #include "util.h"
 
-inline uint8_t decode(char& c)
+inline uint8_t decode(const char& c)
 {
-    if (c == 'a')
-        return 1;
-    else if (c == 'b')
-        return 2;
-    else if (c == 'c')
-        return 4;
-    else
-        return 0;
+    switch (c)
+    {
+        case 'a': return 1; break;
+        case 'b': return 2; break;
+        case 'c': return 4; break;
+        default: return 0;
+    }
 }
 
 struct Group
@@ -45,7 +44,8 @@ struct Group
 
     void print() const
     {
-        fmt::print("Group {}: Number of people = {}, raw = {}, answer = {}\n", gid, num_people(), raw, answer);
+        fmt::print("Group {}: Number of people = {}, raw = {}, answer = {}\n",
+                gid, num_people(), raw, answer);
     }
 };
 

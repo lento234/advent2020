@@ -6,46 +6,55 @@
 #include <fmt/ranges.h>
 #include "util.h"
 
-inline uint8_t decode(const char& c)
-{
-    switch (c)
-    {
-        case 'a': return 1; break;
-        case 'b': return 2; break;
-        case 'c': return 4; break;
-        default: return 0;
-    }
-}
-
 struct Group
 {
     uint32_t gid;
-    std::vector<std::string> raw;
-    std::vector<uint8_t> answer;
-    Group(uint32_t gid, std::vector<std::string> people):
+    std::vector<std::string> text;
+    std::vector<uint8_t> people;
+    bool a = false;
+    bool b = false;
+    bool c = false;
+    Group(uint32_t gid, std::vector<std::string> text):
         gid(gid),
-        raw(people)
+        text(text)
     {
         // Decode
-        for (auto& line : people)
+        for (auto& line : text)
         {
             uint8_t ans = 0;
-            for (auto& c : line)
-                ans += decode(c);
-            answer.push_back(ans);
+            for (auto& l: line)
+            {
+                if (l == 'a')
+                {
+                    a = true;
+                    ans += 1;
+                }
+                else if (l == 'b')
+                {
+                    b = true;
+                    ans += 2;
+                }
+                else if (l == 'c')
+                {
+                    c = true;
+                    ans += 4;
+                }
+            }
+            people.push_back(ans);
         }
 
     };
 
-    inline size_t num_people() const { return answer.size(); }
+    inline size_t num_people() const { return people.size(); }
 
-    auto begin() { return answer.begin(); }
-    auto end() { return answer.end(); }
+    auto begin() { return people.begin(); }
+    auto end() { return people.end(); }
+    inline uint32_t count() const { return static_cast<uint32_t>(a) + static_cast<uint32_t>(b) + static_cast<uint32_t>(c); }
 
     void print() const
     {
         fmt::print("Group {}: Number of people = {}, raw = {}, answer = {}\n",
-                gid, num_people(), raw, answer);
+                gid, num_people(), text, people);
     }
 };
 
@@ -74,25 +83,12 @@ uint32_t problem1(Text& text)
     // Make groups
     std::vector<Group> groups = make_groups(text);
 
-    // Debug
-    //for (auto& group : groups)
-    //    group.print();
-
-    // Check at least all answer
-    uint32_t num_valid_groups = 0;
+    // Sum of counts
+    uint32_t sum_counts = 0;
     for (auto& group : groups)
-    {
-        uint32_t sum_answer = 0;
-        for (auto& person : group)
-        {
-            if ((person == 1) or (person = 2) or (person == 4))
-                sum_answer = 1;
+        sum_counts += group.count();
 
-
-        }
-        fmt::print("Group {}: Number of people = {}, Number of answers = {}\n", group.gid, group.num_people(), sum_answer);
-    }
-    return 0;
+    return sum_counts;
 }
 
 int main()

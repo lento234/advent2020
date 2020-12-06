@@ -1,5 +1,6 @@
 // Advent of Code: Day 6
 // Lento Manickathan
+#include <list>
 #include <vector>
 #include <string>
 #include <chrono>
@@ -10,52 +11,50 @@ struct Group
 {
     uint32_t gid;
     std::vector<std::string> text;
-    std::vector<uint8_t> people;
-    bool a = false;
-    bool b = false;
-    bool c = false;
+    std::list<std::list<uint8_t>> people;
+    std::list<uint8_t> group_answers;
     Group(uint32_t gid, std::vector<std::string> text):
         gid(gid),
         text(text)
     {
+
         // Decode
         for (auto& line : text)
         {
-            uint8_t ans = 0;
+            std::list<uint8_t> answer;
             for (auto& l: line)
             {
-                if (l == 'a')
-                {
-                    a = true;
-                    ans += 1;
-                }
-                else if (l == 'b')
-                {
-                    b = true;
-                    ans += 2;
-                }
-                else if (l == 'c')
-                {
-                    c = true;
-                    ans += 4;
-                }
+                answer.push_back(static_cast<size_t>(l)-97);
+                group_answers.push_back(static_cast<size_t>(l)-97);
             }
-            people.push_back(ans);
+            answer.sort();
+            answer.unique();
+            people.push_back(answer);
         }
 
-    };
+        // group answer
+        group_answers.sort();
+        group_answers.unique();
+    }
 
     inline size_t num_people() const { return people.size(); }
 
     auto begin() { return people.begin(); }
     auto end() { return people.end(); }
-    inline uint32_t count() const { return static_cast<uint32_t>(a) + static_cast<uint32_t>(b) + static_cast<uint32_t>(c); }
 
     void print() const
     {
-        fmt::print("Group {}: Number of people = {}, raw = {}, answer = {}\n",
-                gid, num_people(), text, people);
+        fmt::print("Group {}: Number of people = {}, raw = {}, answers = {}\n",
+                gid, num_people(), text, group_answers);
     }
+
+    size_t count() const
+    {
+        fmt::print("Group {}: count = {}\n", gid, group_answers.size());
+        return group_answers.size();
+    }
+
+
 };
 
 std::vector<Group> make_groups(Text& text)
@@ -83,6 +82,9 @@ uint32_t problem1(Text& text)
     // Make groups
     std::vector<Group> groups = make_groups(text);
 
+    for (auto& group : groups)
+        group.print();
+
     // Sum of counts
     uint32_t sum_counts = 0;
     for (auto& group : groups)
@@ -104,6 +106,8 @@ int main()
     // Test input
     Text test_input("test_input.txt");
     test_input.print();
+
+    fmt::print("a={}, e={}, m={}, z={}\n", uint8_t('a'), 'e', 'm' , uint8_t('z'));
 
     // Test Problem 1
     uint32_t test_answer1 = problem1(test_input);

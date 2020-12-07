@@ -87,30 +87,30 @@ uint32_t problem1(Text& text)
     return sum_counts;
 }
 
+
 uint32_t problem2(Text& text)
 {
     // Make groups
     std::vector<Group> groups = make_groups(text);
 
-    // Debug
     uint32_t sum_counts = 0;
+    std::string intersect;
     for (auto& group : groups)
     {
-        if (group.num_people() == 1)
-            sum_counts += group.count();
-        else
+        // https://github.com/Kazhuu/advent-of-code-2020/blob/main/day06
+        intersect = group.text[0];
+        for (size_t i=1; i<group.size(); ++i)
         {
-            std::vector<char> intersect;
-            for (size_t i=0; i<group.size()-1; ++i)
-                 std::set_intersection(group.people[i].begin(), group.people[i].end(),
-                            group.people[i+1].begin(), group.people[i+1].end(), std::back_inserter(intersect));
-            auto last = std::unique(intersect.begin(), intersect.end());
-            intersect.erase(last, intersect.end());
-            sum_counts += intersect.size();
+            intersect.erase(
+                    std::remove_if(intersect.begin(), intersect.end(),
+                                   [&group, &i](char c) { return group.text[i].find(c) == std::string::npos; }),
+                    intersect.end());
         }
+        sum_counts += intersect.size();
     }
-    
+
     return sum_counts;
+
 }
 
 int main()
@@ -136,8 +136,9 @@ int main()
             test_answer2, 6, (test_answer2 == 6) ? "PASSED" : "FAILED");
 
     // Solve problem
-    //Text input("input.txt");
-    //fmt::print(">> Answer 1: {}\n", problem1(input));
+    Text input("input.txt");
+    fmt::print(">> Answer 1: {}\n", problem1(input));
+    fmt::print(">> Answer 2: {}\n", problem2(input));
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end - start);

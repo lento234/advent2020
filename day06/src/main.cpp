@@ -1,5 +1,8 @@
 // Advent of Code: Day 6
 // Lento Manickathan
+#include <algorithm>
+#include <iterator>
+#include <set>
 #include <list>
 #include <vector>
 #include <string>
@@ -11,8 +14,8 @@ struct Group
 {
     uint32_t gid;
     std::vector<std::string> text;
-    std::list<std::list<uint8_t>> people;
-    std::list<uint8_t> group_answers;
+    std::vector<std::vector<char>> people;
+    std::set<char> group_answers;
     Group(uint32_t gid, std::vector<std::string> text):
         gid(gid),
         text(text)
@@ -21,23 +24,20 @@ struct Group
         // Decode
         for (auto& line : text)
         {
-            std::list<uint8_t> answer;
+            std::set<char> answer;
             for (auto& l: line)
             {
-                answer.push_back(static_cast<size_t>(l)-97);
-                group_answers.push_back(static_cast<size_t>(l)-97);
+                answer.insert(l);
+                group_answers.insert(l);
             }
-            answer.sort();
-            answer.unique();
-            people.push_back(answer);
+            std::vector<char> answer_v(answer.begin(), answer.end());
+            people.push_back(answer_v);
         }
-
-        // group answer
-        group_answers.sort();
-        group_answers.unique();
     }
 
     inline size_t num_people() const { return people.size(); }
+
+    inline size_t size() const { return num_people(); }
 
     inline size_t count() const { return group_answers.size(); }
     
@@ -97,34 +97,20 @@ uint32_t problem2(Text& text)
     for (auto& group : groups)
     {
         if (group.num_people() == 1)
-        {
-            sum_counts+= group.count();
-            fmt::print("Group {}: Count = {}\n", group.gid, group.count());
-        }
+            sum_counts += group.count();
         else
         {
-            for (auto& group_ans : group.group_answers)
-            {
-                uint32_t n_people=0;
-                for (auto& person : groups)
-                    for (auto& ans : person)
-                        if (group_ans == ans)
-                            n_people++;
-                fmt::print("n_people = {}\n", n_people);
-            }
-
-            for (auto& person : group)
-            {
-                uint32_t sum = 0;
-                for (auto& ans: person)
-                    sum += ans;
-                fmt::print("Group {}: sum = {}\n", group.gid, sum);
-            }
-            fmt::print("\n");
+            std::vector<char> intersect;
+            for (size_t i=0; i<group.size()-1; ++i)
+                 std::set_intersection(group.people[i].begin(), group.people[i].end(),
+                            group.people[i+1].begin(), group.people[i+1].end(), std::back_inserter(intersect));
+            auto last = std::unique(intersect.begin(), intersect.end());
+            intersect.erase(last, intersect.end());
+            sum_counts += intersect.size();
         }
     }
     
-    return 0;
+    return sum_counts;
 }
 
 int main()
@@ -146,12 +132,12 @@ int main()
     fmt::print(">> Test 1: Sum of counts = {} ({}) [{}]\n",
             test_answer1, 11, (test_answer1 == 11) ? "PASSED" : "FAILED");
     uint32_t test_answer2 = problem2(test_input);
-    fmt::print(">> Test 1: Sum of counts = {} ({}) [{}]\n",
-            test_answer2, 6, (test_answer1 == 6) ? "PASSED" : "FAILED");
+    fmt::print(">> Test 2: Sum of counts = {} ({}) [{}]\n",
+            test_answer2, 6, (test_answer2 == 6) ? "PASSED" : "FAILED");
 
     // Solve problem
-    Text input("input.txt");
-    fmt::print(">> Answer 1: {}\n", problem1(input));
+    //Text input("input.txt");
+    //fmt::print(">> Answer 1: {}\n", problem1(input));
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end - start);

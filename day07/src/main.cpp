@@ -1,4 +1,4 @@
-// Advent of Code: Day 6
+// Advent of Code: Day 7
 // Lento Manickathan
 #include <algorithm>
 #include <iterator>
@@ -11,6 +11,7 @@
 #include <fmt/ranges.h>
 #include "util.h"
 
+using fmt::print;
 
 class Bag
 {
@@ -33,15 +34,15 @@ public:
 
     inline Bag& operator[](const size_t i) { return bags[i]; }
 
-    void operator<<(std::string&& child_name) { bags.emplace_back(Bag(child_name, level+1)); }
+    void operator<<(std::string&& child_name) { bags.emplace_back(child_name, level+1); }
 
     inline auto begin() {return bags.begin(); }
     inline auto end() {return bags.end(); }
 
     void print()
     {
-        fmt::print("{}|{} {} : [level = {}, total = {}, size = {}]\n",
-                std::string(level*2, ' '), std::string(level, '-'),
+        fmt::print("{}{}{} {} : [level = {}, total = {}, size = {}]\n",
+                std::string(level*2, ' '), level ? "└": "", std::string(level,'>'),
                 name, level, total_size(), size());
         for (auto& bag : bags)
             bag.print();
@@ -55,27 +56,28 @@ uint32_t problem1(Text& text)
 {
     for (auto& line : text)
     {
-        auto pos = line.find("shiny gold bag");
+        auto pos = line.find("shiny gold");
         if (pos != std::string::npos)
         {
             fmt::print("{}, {}\n", line, pos);
         }
     }
 
-    /*
     Bag shiny_gold_bag = {"shiny gold bag"};
 
     shiny_gold_bag << "purple";
     shiny_gold_bag << "red";
-    shiny_gold_bag.bags[0] << "green";
-    shiny_gold_bag.bags[0] << "yellow";
-    shiny_gold_bag.bags[0] << "blue";
-    shiny_gold_bag.bags[1] << "orange";
+    shiny_gold_bag[0] << "green";
+    shiny_gold_bag[0] << "green";
+    shiny_gold_bag[0] << "yellow";
+    shiny_gold_bag[0][0] << "gray";
+    shiny_gold_bag[0] << "blue";
+    shiny_gold_bag[1] << "orange";
+    shiny_gold_bag[1][0] << "magenta";
 
     shiny_gold_bag.print();
-    */
 
-    fmt::print("Bag = {}, level = {}, size = {}\n", shiny_gold_bag.name, shiny_gold_bag.level, shiny_gold_bag.total_size());
+    //print("Bag = {}, level = {}, size = {}\n", shiny_gold_bag.name, shiny_gold_bag.level, shiny_gold_bag.total_size());
 
     return 0;
 }
@@ -88,9 +90,9 @@ int main()
 
     // Header info
     constexpr uint8_t day = 6;
-    fmt::print("//////////////////////////////\n");
-    fmt::print("    Advent of Code : Day {}   \n", day);
-    fmt::print("//////////////////////////////\n\n");
+    print("//////////////////////////////\n");
+    print("    Advent of Code : Day {}   \n", day);
+    print("//////////////////////////////\n\n");
   
     // Test input
     Text test_input("test_input.txt");
@@ -98,7 +100,7 @@ int main()
 
     // Test Problem 1
     uint32_t test_answer1 = problem1(test_input);
-    fmt::print(">> Test 1: Sum of counts = {} ({}) [{}]\n",
+    print(">> Test 1: Sum of counts = {} ({}) [{}]\n",
             test_answer1, 4, (test_answer1 == 4) ? "PASSED" : "FAILED");
     //uint32_t test_answer2 = problem2(test_input);
     //fmt::print(">> Test 2: Sum of counts = {} ({}) [{}]\n",
@@ -111,6 +113,6 @@ int main()
 
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration<double, std::milli>(end - start);
-    fmt::print("\nTotal duration: {:.3f} ms\n", duration.count());
+    print("\nTotal duration: {:.3f} ms\n", duration.count());
 
 }

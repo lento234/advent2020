@@ -1,10 +1,6 @@
 // Advent of Code: Day 7
 // Lento Manickathan
-#include <algorithm>
-#include <iterator>
-#include <memory>
-#include <set>
-#include <list>
+#include <map>
 #include <vector>
 #include <string>
 #include <chrono>
@@ -16,6 +12,7 @@ using fmt::print;
 class Bag
 {
 public:
+    //std::map<std::string, Bag> bags;
     std::vector<Bag> bags;
     std::string name;
     uint32_t level;
@@ -58,25 +55,42 @@ uint32_t problem1(Text& text)
     {
         auto pos = line.find("shiny gold");
         if (pos != std::string::npos)
-        {
             fmt::print("{}, {}\n", line, pos);
-        }
     }
+    
+    Bag shiny_gold = {"shiny gold bag"};
 
-    Bag shiny_gold_bag = {"shiny gold bag"};
+    
 
-    shiny_gold_bag << "purple";
-    shiny_gold_bag << "red";
-    shiny_gold_bag[0] << "green";
-    shiny_gold_bag[0] << "green";
-    shiny_gold_bag[0] << "yellow";
-    shiny_gold_bag[0][0] << "gray";
-    shiny_gold_bag[0] << "blue";
-    shiny_gold_bag[1] << "orange";
-    shiny_gold_bag[1][0] << "magenta";
+    /*
+    shiny_gold << "purple";
+    shiny_gold << "red";
+    shiny_gold[0] << "green";
+    shiny_gold[0] << "green";
+    shiny_gold[0] << "yellow";
+    shiny_gold[0][0] << "gray";
+    shiny_gold[0] << "blue";
+    shiny_gold[1] << "orange";
+    shiny_gold[1][0] << "magenta";
 
-    shiny_gold_bag.print();
+    shiny_gold.print();
+    */
+    
+    std::map<std::string, Bag> map;
+   
+    Bag temp = {"purple"};
+    map.insert(std::make_pair("purple", temp)); // (std::make_pair("purple", Bag("purple"))); //Bag("purple");
+    //map.insert(std::make_pair("red", 2));
+    //map.insert(std::make_pair("green", 3));
 
+    //print("     {}\n", map["purple"]);
+    //print("map = {}\n", map["purple"]);
+    //
+    //    print("{}, {}\n", map["purple"].name, map["purple"].level);
+
+    /*
+    print("c = {}\n", map["c"]);
+    */
     //print("Bag = {}, level = {}, size = {}\n", shiny_gold_bag.name, shiny_gold_bag.level, shiny_gold_bag.total_size());
 
     return 0;
